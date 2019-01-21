@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
         EditText mytextField = findViewById(R.id.myTextField);
         count++;
         Log.i("Info", "Button pressed for the " + count + " th time\n" + mytextField.getText()); // displaying information on "run" screen on android studio
-
+        Toast.makeText(MainActivity.this, "Login attempt... this really doesnt do anything", Toast.LENGTH_SHORT).show(); // small grey text bubble shows up 
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
