@@ -13,10 +13,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick (View view){
         EditText numText = findViewById(R.id.numText);
-        Double dollars = Double.parseDouble(numText.getText().toString()); // uppper case D because we are using class Double.
+        Double dollars = Double.parseDouble(numText.getText().toString());
         double converted = dollars *1100.3;
-        Toast.makeText(this, converted + "KRW", Toast.LENGTH_SHORT).show();
-
+        String str_converted = String.format("%.2f", converted);
+        Toast.makeText(this, dollars + "USD is " +str_converted + "KRW", Toast.LENGTH_SHORT).show();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
