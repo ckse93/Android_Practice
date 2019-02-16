@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     }
     class Number {
         int number;
-        public boolean isTriangular(){
+        public boolean isTriangular(){ // not bool. this is not c++
             int x =1;
             int triangular = 1;
             while (triangular < number){
