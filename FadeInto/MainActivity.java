@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void fadehelper (ImageView v1, ImageView v2){
         v1.animate().alpha(0f).setDuration(500);
-        v2.animate().alpha(1f).setDuration(500);
+        v2.animate().alpha(1f).setDuration(500); // alpha() takes a float as a parameter. so you have to put 'f'next to 1 or 0.
         v2.bringToFront();
     }
     public void fadeInto (View view){               //both pika1 and pika2 will have this as onClick method 
