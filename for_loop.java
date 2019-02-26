@@ -18,4 +18,5 @@ public class mainnn {
 		System.out.println(names);
 		}
 	}
+	// try with the list too later
 }
