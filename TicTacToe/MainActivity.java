@@ -5,113 +5,109 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
-
-    class ReadyPlayer {
-        int [][] playerArray = new int[3][3];
-        int victoryCount;
-        ReadyPlayer(){
-            victoryCount = 0;
-        }
-        public void setupPlayer(){
-            victoryCount = 0;
-        }
-        public boolean didTheyWin(){
-            if (this.playerArray[0][0] + this.playerArray[0][1]+ this.playerArray[0][2] == 3){
-                victoryCount ++;
-                return true;
-            }
-            else if (this.playerArray[1][0] + this.playerArray[1][1]+ this.playerArray[1][2] == 3){
-                victoryCount++;
-                return true;
-            }
-            else if (this.playerArray[2][0] + this.playerArray[2][1]+ this.playerArray[2][2] == 3){
-                victoryCount++;
-                return true;
-            }
-            else if (this.playerArray[0][0] + this.playerArray[1][0]+ this.playerArray[2][0] == 3){
-                victoryCount++;
-                return true;
-            }
-            else if (this.playerArray[0][1] + this.playerArray[1][1]+ this.playerArray[2][1] == 3){
-                victoryCount++;
-                return true;
-            }
-            else if (this.playerArray[0][2] + this.playerArray[1][2]+ this.playerArray[2][2] == 3){
-                victoryCount++;
-                return true;
-            }
-            else if (this.playerArray[0][0] + this.playerArray[1][1]+ this.playerArray[2][2] == 3){
-                victoryCount++;
-                return true;
-            }
-            else if (this.playerArray[0][2] + this.playerArray[1][1]+ this.playerArray[2][0] == 3){
-                victoryCount++;
-                return true;
-            }
-            else return false;
-        }
-        public void receivedInput(int i, int j){
-            this.playerArray[i][j] = 1;
-            return;
-        }
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
-    int whoseTurn;
-    int [][] placeTaken = new int[3][3];
-    ReadyPlayer player1 = new ReadyPlayer();
-    ReadyPlayer player2 = new ReadyPlayer();
-    ImageView W1 = (ImageView) findViewById(R.id.whitespace1);
-    ImageView W2 = (ImageView) findViewById(R.id.whitespace2);
-    ImageView W3 = (ImageView) findViewById(R.id.whitespace3);
-    ImageView W4 = (ImageView) findViewById(R.id.whitespace4);
-    ImageView W5 = (ImageView) findViewById(R.id.whitespace5);
-    ImageView W6 = (ImageView) findViewById(R.id.whitespace6);
-    ImageView W7 = (ImageView) findViewById(R.id.whitespace7);
-    ImageView W8 = (ImageView) findViewById(R.id.whitespace8);
-    ImageView W9 = (ImageView) findViewById(R.id.whitespace9);
-
-    public void fadeIn(ImageView view){
-        if (whoseTurn % 2 != 0) {
-            view.setImageResource(R.drawable.red);
+    int whose_turn = 10;
+    int[] gameState = {0,0,0,0,0,0,0,0,0}; // 2 means unplayed, change it to 0 after the slot has been taken
+    protected void someoneWon() {
+        if (gameState[0] == gameState [1] && gameState[0] == gameState [2]){ // im very sure there is a better algorithm to check this, but im very lazy.
+            if (gameState[0] == 1){
+                Toast.makeText(this, "Player 1 Wins", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Player 2 wins", Toast.LENGTH_SHORT).show();
+            }
         }
-        else {
-            view.setImageResource(R.drawable.yellow);
+        else if (gameState[3] == gameState [4] && gameState[4] == gameState [5]){
+            if (gameState[3] == 1){
+                Toast.makeText(this, "Player 1 Wins", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Player 2 wins", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (gameState[6] == gameState [7] && gameState[7] == gameState [8]){
+            if (gameState[6] == 1){
+                Toast.makeText(this, "Player 1 Wins", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Player 2 wins", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (gameState[0] == gameState [3] && gameState[3] == gameState [6]){
+            if (gameState[6] == 1){
+                Toast.makeText(this, "Player 1 Wins", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Player 2 wins", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (gameState[1] == gameState [4] && gameState[4] == gameState [5]){
+            if (gameState[1] == 1){
+                Toast.makeText(this, "Player 1 Wins", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Player 2 wins", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else if (gameState[2] == gameState [5] && gameState[5] == gameState [8]){
+            if (gameState[8] == 1){
+                Toast.makeText(this, "Player 1 Wins", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "Player 2 wins", Toast.LENGTH_SHORT).show();
+            }
         }
     }
-    public void settingValues (int i, int j){
-        if (whoseTurn%2!=0){
-            player1.receivedInput(i,j);
-            Log.i("SettingValues", String.valueOf(whoseTurn%2) + "player 1 : " + String.valueOf(i)+ ", "+String.valueOf(j) );
-            whoseTurn++;
+
+    public void dropIn (View v){
+        ImageView counter = (ImageView) v; // this is the tapped on view variable
+
+        String tagStr = counter.getTag().toString();
+        int tagInt = Integer.parseInt(tagStr);
+        if(gameState[tagInt] != 0){
+            return;
         }
+        else if (gameState[tagInt] == 0){
+            counter.setTranslationY(-1000f); // 1000 pixels off the top of the screen
+            if (whose_turn % 2 == 0) {
+                counter.setImageResource(R.drawable.yellow);
+                gameState[tagInt] = 2; // fill it in for player 2
+            }
+            else {
+                counter.setImageResource(R.drawable.red);
+                gameState[tagInt] = 1; // fill it in for player 1
+            }
+            whose_turn++;
+            Log.i("whose_turn: ", "" + whose_turn );
+            counter.animate().translationYBy(1000f).rotation(360f).setDuration(200);
+        }
+        /*
         else {
-            player2.receivedInput(i,j);
-            Log.i("SettingValues", String.valueOf(whoseTurn%2) + "player 2 : " + String.valueOf(i)+ ", "+String.valueOf(j) );
-            whoseTurn++;
+            if (gameState[tagInt] == 2){
+                counter.setImageResource(R.drawable.yellow);
+                counter.animate().translationYBy(1f).setDuration(1);
+            }
+            else if(gameState[tagInt] == 1) {
+                counter.setImageResource(R.drawable.red);
+                counter.animate().translationYBy(1f).setDuration(1);
+            }
         }
+        */
+        String arrayVal = Arrays.toString(gameState);
+        Log.i("Array : ", arrayVal);
+        someoneWon();
+    }
+    public void resetButton(View v){
+        Toast.makeText(this, "I haven't programmed that path yet", Toast.LENGTH_SHORT).show();
     }
 
-    void onClick(View v){
-        switch (v.getId()){
-
-
-        }
-
-
-        if (whoseTurn % 2 != 0){ // RED,player 1
-        }
-        else {
-            player2.
-        }
-    }
 }
