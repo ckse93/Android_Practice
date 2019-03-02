@@ -90,18 +90,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("whose_turn: ", "" + whose_turn );
             counter.animate().translationYBy(1000f).rotation(360f).setDuration(200);
         }
-        /*
-        else {
-            if (gameState[tagInt] == 2){
-                counter.setImageResource(R.drawable.yellow);
-                counter.animate().translationYBy(1f).setDuration(1);
-            }
-            else if(gameState[tagInt] == 1) {
-                counter.setImageResource(R.drawable.red);
-                counter.animate().translationYBy(1f).setDuration(1);
-            }
-        }
-        */
+        
         String arrayVal = Arrays.toString(gameState);
         Log.i("Array : ", arrayVal);
         someoneWon();
