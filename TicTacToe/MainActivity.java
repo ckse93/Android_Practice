@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Arrays;
@@ -26,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
                     gameState[winningState[1]] == gameState[winningState[2]] &&
                     gameState[winningState[0]] != 0) {
                 Toast.makeText(this, "WIN", Toast.LENGTH_SHORT).show();
+                Button playAgain = (Button) findViewById(R.id.button2);
+                TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
+                playAgain.setVisibility(View.VISIBLE);
+                String winnerColor = "";
+                if (whose_turn % 2 == 0){
+                    winnerColor = "Red";
+                }
+                else {
+                    winnerColor = "Yellow";
+                }
+                winnerTextView.setText(winnerColor + " player has won!");
+                winnerTextView.setVisibility(View.VISIBLE);     // this is where you set the text for the textview
                 return true;
             }
             }
@@ -54,12 +68,24 @@ public class MainActivity extends AppCompatActivity {
             counter.animate().translationYBy(1000f).rotation(360f).setDuration(200);
             //someoneWon();
         }
-
+        win();
         String arrayVal = Arrays.toString(gameState);
         Log.i("Array : ", arrayVal);
     }
-    public void resetButton(View v){
-        Toast.makeText(this, "I haven't programmed that path yet", Toast.LENGTH_SHORT).show();
+    public void resetButton(View v){  // reset the game to the initial state
+        Button playAgain = (Button) findViewById(R.id.button2);
+        TextView winnerTextView = (TextView) findViewById(R.id.winnerTextView);
+        playAgain.setVisibility(View.INVISIBLE);
+        winnerTextView.setVisibility(View.INVISIBLE);     // this is where you set the text for the textview
+        android.support.v7.widget.GridLayout gameGrid = (android.support.v7.widget.GridLayout) findViewById(R.id.gridLayout);
+        for (int i = 0 ; i<gameGrid.getChildCount() ; i++){
+            ImageView child = (ImageView) gameGrid.getChildAt(i);
+            child.setImageDrawable(null); // remove the image
+        }
+        for (int i = 0 ; i < gameState.length; i++){  // resetting gamestate array
+            gameState[i] =0;
+        }
+
     }
 
 }
