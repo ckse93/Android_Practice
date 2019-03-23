@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         scrubSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                Log.i("scrubSeekbar", Integer.toString(i));
+                Log.i("scrubSeekbar", Integer.toString(i));  // just for logging 
+                 mp.seekTo(i);                  // media player will seek it to position i
             }
 
             @Override
