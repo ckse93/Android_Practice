@@ -6,6 +6,7 @@ import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -15,18 +16,28 @@ public class MainActivity extends AppCompatActivity {
 
     MediaPlayer mediaPlayer;
     AudioManager audioManager;
+    CountDownTimer timer;
 
     public void timerSet(int i){
         int j = i*1000;
-        new CountDownTimer((long)j, 1000){
+        timer = new CountDownTimer((long)j, 1000){
           public void onTick(long milSecondsUntilDone){ // will be called every 1000milliseconds
             Log.i("Seconds left", String.valueOf(milSecondsUntilDone/100));
-            textView.setText(String.valueOf(milSecondsUntilDone/100) + " left");
+            textView.setText(String.valueOf(milSecondsUntilDone/1000) + " Seconds left");
           }
           public void onFinish() {
               playSound();
           }
-        }.start();
+        };
+    }
+
+    public void timerStart(View view){
+        timer.start();
+    }
+
+    public void timerPause(View v){
+        timer.cancel();
+        mediaPlayer.pause();
     }
 
     public void playSound(){
@@ -45,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         timeBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                //timer.cancel(); // when moved, timer is cancelled
                 Log.i("seekbar moved to : ", String.valueOf(i));
                 //insert the time in the timer method
                 timerSet(i);
