@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     TextView timeTextView;
     TextView sumTextView;
     TextView scoreTextView;
+    TextView totalScoreView;
     Button StartButton;
 
     Button button0;
@@ -55,14 +56,19 @@ public class MainActivity extends AppCompatActivity {
     public void startGame(View v){
         score = 0;
         totaltries = 0;
+        sumTextView.setVisibility(View.VISIBLE);
         StartButton.setVisibility(View.INVISIBLE);
         gridLayout.setVisibility(View.VISIBLE);
+        totalScoreView.setVisibility(View.INVISIBLE);
         timer.start();
     }
 
     public void gameOver(){ // will be called when reset is pushed or when timer is done.
+        totalScoreView.setText("total "+Integer.toString(score)+" questions right out of "+Integer.toString(totaltries));
         gridLayout.setVisibility(View.INVISIBLE);
+        totalScoreView.setVisibility(View.VISIBLE);
         StartButton.setVisibility(View.VISIBLE);
+        sumTextView.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -74,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         sumTextView = findViewById(R.id.questionTextView);
         timeTextView = findViewById(R.id.timeDisplay);
         scoreTextView = findViewById(R.id.scoreCounterTextView);
+        totalScoreView = findViewById(R.id.textView);
         StartButton = findViewById(R.id.button2);
 
         button0 = findViewById(R.id.btn1);
