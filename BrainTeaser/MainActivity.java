@@ -19,9 +19,17 @@ public class MainActivity extends AppCompatActivity {
     android.support.v7.widget.GridLayout gridLayout;
     TextView timeTextView;
     TextView sumTextView;
+    TextView scoreTextView;
     Button StartButton;
+
+    Button button0;
+    Button button1;
+    Button button2;
+    Button button3;
     ArrayList<Integer> answerArr = new ArrayList<Integer>();
     int locationOfCorrectAnswer;
+    int score;
+    int totaltries;
 
     public void setTimer(int time){
         Log.i("setTimer : ", "called");
@@ -33,26 +41,28 @@ public class MainActivity extends AppCompatActivity {
             public void onTick(long milSecondsUntilDone) {
                 long mins = TimeUnit.MILLISECONDS.toMinutes(milSecondsUntilDone);
                 long secs = ((milSecondsUntilDone / 1000) % 60);
-                String timeStr = String.valueOf(mins) + " / " + String.valueOf(secs);
+                String timeStr = String.valueOf(mins) + " : " + String.valueOf(secs);
                 timeTextView.setText(timeStr);
             }
 
             @Override
             public void onFinish() {
-                gridLayout.setVisibility(View.INVISIBLE);
-                StartButton.setVisibility(View.VISIBLE);
+                gameOver();
             }
         };
     }
 
     public void startGame(View v){
+        score = 0;
+        totaltries = 0;
         StartButton.setVisibility(View.INVISIBLE);
         gridLayout.setVisibility(View.VISIBLE);
         timer.start();
     }
 
-    public void gameOver(View v){ // will be called when reset is pushed or when timer is done.
+    public void gameOver(){ // will be called when reset is pushed or when timer is done.
         gridLayout.setVisibility(View.INVISIBLE);
+        StartButton.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -63,28 +73,31 @@ public class MainActivity extends AppCompatActivity {
         gridLayout = findViewById(R.id.gamegridLayout);
         sumTextView = findViewById(R.id.questionTextView);
         timeTextView = findViewById(R.id.timeDisplay);
+        scoreTextView = findViewById(R.id.scoreCounterTextView);
         StartButton = findViewById(R.id.button2);
-        setTimer(90);
 
+        button0 = findViewById(R.id.btn1);
+        button1 = findViewById(R.id.btn2);
+        button2 = findViewById(R.id.btn3);
+        button3 = findViewById(R.id.btn4);
+        setTimer(20);
+        newQuestion();
+    }
+
+    public void newQuestion (){
         Random rand = new Random();
         int a = rand.nextInt(21); // from zero to 21
         int b =rand.nextInt(21);
-
+        answerArr.clear();
         locationOfCorrectAnswer = rand.nextInt(4); //between 0 and 3
         sumTextView.setText(Integer.toString(a) + " + " + Integer.toString(b) + " = ?");
-
-        Button button0 = findViewById(R.id.btn1);
-        Button button1 = findViewById(R.id.btn2);
-        Button button2 = findViewById(R.id.btn3);
-        Button button3 = findViewById(R.id.btn4);
-
         for (int i = 0 ; i< 4 ; i++){
             if (i == locationOfCorrectAnswer) {
                 answerArr.add(a+b);
             } else {
                 int wrongAnswer = rand.nextInt(41);
                 while(wrongAnswer == (a+b)){
-                    answerArr.add(rand.nextInt(41));
+                    wrongAnswer = rand.nextInt(41);
                 }
                 answerArr.add(wrongAnswer);
             }
@@ -93,14 +106,19 @@ public class MainActivity extends AppCompatActivity {
         button1.setText(Integer.toString(answerArr.get(1)));
         button2.setText(Integer.toString(answerArr.get(2)));
         button3.setText(Integer.toString(answerArr.get(3 )));
+
     }
 
     public  void chooseAnswer (View v){
+        totaltries++;
         if (Integer.toString(locationOfCorrectAnswer).equals(v.getTag().toString())){
             Toast.makeText(this, "CORRECT", Toast.LENGTH_SHORT).show();
+            score++;
         } else {
             Toast.makeText(this, "WRONG", Toast.LENGTH_SHORT).show();
         }
+        scoreTextView.setText(Integer.toString(score) + " / " + Integer.toString(totaltries));
+        newQuestion();
         //Log.i("Tag :" , v.getTag().toString());
     }
 }
