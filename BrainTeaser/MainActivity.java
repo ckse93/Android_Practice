@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class MainActivity extends AppCompatActivity {
     CountDownTimer timer;
     android.support.v7.widget.GridLayout gridLayout;
+    
+    // these variables will be used on multiple methods. so declared it here on MainActivity and instantiate them on OnCreate()
     TextView timeTextView;
     TextView sumTextView;
     TextView scoreTextView;
@@ -31,6 +33,26 @@ public class MainActivity extends AppCompatActivity {
     int locationOfCorrectAnswer;
     int score;
     int totaltries;
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        gridLayout = findViewById(R.id.gamegridLayout);
+        sumTextView = findViewById(R.id.questionTextView);
+        timeTextView = findViewById(R.id.timeDisplay);
+        scoreTextView = findViewById(R.id.scoreCounterTextView);
+        totalScoreView = findViewById(R.id.textView);
+        StartButton = findViewById(R.id.button2);
+
+        button0 = findViewById(R.id.btn1);
+        button1 = findViewById(R.id.btn2);
+        button2 = findViewById(R.id.btn3);
+        button3 = findViewById(R.id.btn4);
+        setTimer(20); // setting it to 20 seconds. 
+        newQuestion();
+    }
 
     public void setTimer(int time){
         Log.i("setTimer : ", "called");
@@ -69,26 +91,6 @@ public class MainActivity extends AppCompatActivity {
         totalScoreView.setVisibility(View.VISIBLE);
         StartButton.setVisibility(View.VISIBLE);
         sumTextView.setVisibility(View.INVISIBLE);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        gridLayout = findViewById(R.id.gamegridLayout);
-        sumTextView = findViewById(R.id.questionTextView);
-        timeTextView = findViewById(R.id.timeDisplay);
-        scoreTextView = findViewById(R.id.scoreCounterTextView);
-        totalScoreView = findViewById(R.id.textView);
-        StartButton = findViewById(R.id.button2);
-
-        button0 = findViewById(R.id.btn1);
-        button1 = findViewById(R.id.btn2);
-        button2 = findViewById(R.id.btn3);
-        button3 = findViewById(R.id.btn4);
-        setTimer(20);
-        newQuestion();
     }
 
     public void newQuestion (){
